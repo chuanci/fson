@@ -1,3 +1,3 @@
-## [0.0.2] - 2019.5.10
+## [0.0.3] - 2020.3.13
 
-* update doc and demo
+* update version

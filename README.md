@@ -2,7 +2,7 @@
 Language: [English](README.md) | [中文简体](README-ZH.md)
 
 
-# json_model [![Pub](https://img.shields.io/pub/v/json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/json_model)
+# json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
 
 Gernerating Dart model class from Json file.
 
@@ -11,15 +11,15 @@ Gernerating Dart model class from Json file.
 ```yaml
 dev_dependencies:
   json_model: #latest version
-  build_runner: ^1.0.0
-  json_serializable: ^2.0.0
+  build_runner: ^1.8.0
+  json_serializable: ^3.2.5
 ```
 
 ## Getting Started
 
 1. Create a "jsons" directory in the root of your project;
 2. Create a Json file under "jsons" dir ;
-3. Run `flutter packages pub run json_model` (in Flutter) or  `pub run json_model`  (in Dart VM)
+3. Run `flutter packages pub run hf_json_model` (in Flutter) or  `pub run hf_json_model`  (in Dart VM)
 
 ## Examples
 
@@ -35,7 +35,7 @@ File: `jsons/user.json`
 }
 ```
 
-Run `pub run json_model`, then  you'll see the generated json file under  `lib/models/` dir:
+Run `pub run hf_json_model`, then  you'll see the generated json file under  `lib/models/` dir:
 
 ```dart
 import 'package:json_annotation/json_annotation.dart';
@@ -132,7 +132,7 @@ class User {
 }
 ```
 
-For completed examples see [here](https://github.com/flutterchina/json_model/tree/master/example) .
+For completed examples see [here](https://github.com/chuanci/json_model/tree/master/example) .
 
 ##  Command arguments
 
@@ -155,7 +155,7 @@ pub run json_model src=json_files  dist=data # will save in lib/data dir
 If you want to run json_model by code instead command line, you can:
 
 ```dart
-import 'package:json_model/json_model.dart';
+import 'package:hf_json_model/hf_json_model.dart';
 void main() {
   run(['src=jsons']);  //run
 }

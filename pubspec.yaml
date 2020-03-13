@@ -1,8 +1,8 @@
-name: json_model
+name: hf_json_model
 description: Gernerating Dart model class from Json file.
-version: 0.0.2
-author: wendux <824783146@qq.com>
-homepage: https://github.com/flutterchina/json_model
+version: 0.0.4
+author: chuanci <chuanci@vip.qq.com>
+homepage: https://github.com/chuanci/json_model
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

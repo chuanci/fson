@@ -10,3 +10,5 @@ environment:
 dev_dependencies:
   json_model:
     path: ../
+  build_runner: ^1.8.0
+  json_serializable: ^3.2.5

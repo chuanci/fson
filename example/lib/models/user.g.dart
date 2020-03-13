@@ -32,5 +32,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'friends': instance.friends,
       'keywords': instance.keywords,
       'bankCards': instance.bankCards,
-      'age': instance.age
+      'age': instance.age,
     };

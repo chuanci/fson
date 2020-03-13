@@ -16,5 +16,5 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'name': instance.name,
       'age': instance.age,
-      'male': instance.male
+      'male': instance.male,
     };

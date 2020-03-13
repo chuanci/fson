@@ -12,5 +12,7 @@ Card _$CardFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String;
 }
 
-Map<String, dynamic> _$CardToJson(Card instance) =>
-    <String, dynamic>{'no': instance.no, 'name': instance.name};
+Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
+      'no': instance.no,
+      'name': instance.name,
+    };

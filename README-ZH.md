@@ -2,7 +2,7 @@
 语言: [English](README.md) | [中文简体](README-ZH.md)
 
 
-# json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
+# hf_json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
 
 只用一行命令，直接将Json文件转为Dart model类。
 
@@ -10,7 +10,7 @@
 
 ```yaml
 dev_dependencies: 
-  json_model: #最新版本
+  hf_json_model: #最新版本
   build_runner: ^1.8.0
   json_serializable: ^3.2.5
 ```

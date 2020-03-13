@@ -2,7 +2,7 @@
 Language: [English](README.md) | [中文简体](README-ZH.md)
 
 
-# json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
+# hf_json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
 
 Gernerating Dart model class from Json file.
 
@@ -10,7 +10,7 @@ Gernerating Dart model class from Json file.
 
 ```yaml
 dev_dependencies:
-  json_model: #latest version
+  hf_json_model: #latest version
   build_runner: ^1.8.0
   json_serializable: ^3.2.5
 ```

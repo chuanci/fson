@@ -1,14 +1,14 @@
-name: hf_json_model
+name: fson
 description: Gernerating Dart model class from Json file.
-version: 0.1.0
+version: 0.3.0
 author: chuanci <chuanci@vip.qq.com>
-homepage: https://github.com/chuanci/json_model
+homepage: https://github.com/chuanci/fson
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  args: any
+  args: ^1.6.0
   build: ^1.2.2
   glob: ^1.2.0
   logging: ^0.11.4
@@ -19,5 +19,6 @@ dependencies:
   json_annotation: ^3.0.1
   json_serializable: ^3.2.5
   path: ^1.6.4
-dev_dependencies:
-  test: ^1.14.2
+
+executables:
+  fson:

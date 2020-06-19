@@ -2,24 +2,25 @@
 语言: [English](README.md) | [中文简体](README-ZH.md)
 
 
-# hf_json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
+# fson [![Pub](https://img.shields.io/pub/v/fson.svg?style=flat-square)](https://pub.dartlang.org/packages/fson)
 
 只用一行命令，直接将Json文件转为Dart model类。
 
 ## 安装
 
+`flutter pub global activate fson` 或者 `pub global activate fson`
+
 ```yaml
 dev_dependencies: 
-  hf_json_model: #最新版本
-  build_runner: ^1.8.0
-  json_serializable: ^3.2.5
+  build_runner: any
+  json_serializable: any
 ```
 
 ## 使用
 
 1. 在工程根目录下创建一个名为 "jsons" 的目录;
 2. 创建或拷贝Json文件到"jsons" 目录中 ;
-3. 运行 `pub run hf_json_model` (Dart VM工程)or `flutter packages pub run hf_json_model`(Flutter中) 命令生成Dart model类，生成的文件默认在"lib/models"目录下
+3. 运行 `fson` 命令生成Dart model类，生成的文件默认在"lib/models"目录下
 
 ## 例子
 
@@ -136,32 +137,21 @@ class User {
 }
 ```
 
-更完整的示例请移步[这里](https://github.com/chuanci/json_model/tree/master/example) .
+更完整的示例请移步[这里](https://github.com/chuanci/fson/tree/master/example) .
 
 ##  命令参数
 
 默认的源json文件目录为根目录下名为 "json" 的目录；可以通过 `src` 参数自定义源json文件目录，例如:
 
 ```shell
-pub run json_model src=json_files 
+fson src=json_files 
 ```
 
 默认的生成目录为"lib/models"，同样也可以通过`dist` 参数来自定义输出目录:
 
 ```shell
-pub run json_model src=json_files  dist=data # 输出目录为 lib/data
+fson src=json_files  dist=data # 输出目录为 lib/data
 ```
 
 > 注意，dist会默认已lib为根目录。
-
-## 代码调用
-
-如果您正在开发一个工具，想在代码中使用json_model，此时便不能通过命令行来调用json_model，这是你可以通过代码调用：
-
-```dart
-import 'package:hf_json_model/hf_json_model.dart';
-void main() {
-  run(['src=jsons']);  //run方法为json_model暴露的方法；
-}
-```
 

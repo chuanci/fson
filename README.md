@@ -2,24 +2,25 @@
 Language: [English](README.md) | [中文简体](README-ZH.md)
 
 
-# hf_json_model [![Pub](https://img.shields.io/pub/v/hf_json_model.svg?style=flat-square)](https://pub.dartlang.org/packages/hf_json_model)
+# fson [![Pub](https://img.shields.io/pub/v/fson.svg?style=fifulat-square)](https://pub.dartlang.org/packages/fson)
 
 Gernerating Dart model class from Json file.
 
 ## Installing
 
+`flutter pub global activate fson` or `pub global activate fson`
+
 ```yaml
 dev_dependencies:
-  hf_json_model: #latest version
-  build_runner: ^1.8.0
-  json_serializable: ^3.2.5
+  build_runner: any
+  json_serializable: any
 ```
 
 ## Getting Started
 
 1. Create a "jsons" directory in the root of your project;
 2. Create a Json file under "jsons" dir ;
-3. Run `flutter packages pub run hf_json_model` (in Flutter) or  `pub run hf_json_model`  (in Dart VM)
+3. Run `fson`
 
 ## Examples
 
@@ -35,7 +36,7 @@ File: `jsons/user.json`
 }
 ```
 
-Run `pub run hf_json_model`, then  you'll see the generated json file under  `lib/models/` dir:
+Run `pub run fson`, then  you'll see the generated json file under  `lib/models/` dir:
 
 ```dart
 import 'package:json_annotation/json_annotation.dart';
@@ -132,32 +133,21 @@ class User {
 }
 ```
 
-For completed examples see [here](https://github.com/chuanci/json_model/tree/master/example) .
+For completed examples see [here](https://github.com/chuanci/fson/tree/master/example) .
 
 ##  Command arguments
 
 The default json source file directory is ` project_root/jsons`;  you can custom the src file directory by `src` argument, for example:
 
 ```shell
-pub run json_model src=json_files 
+fson src=json_files 
 ```
 
 You can also custom the dist directory by `dist` argument:
 
 ```shell
-pub run json_model src=json_files  dist=data # will save in lib/data dir
+fson src=json_files  dist=data # will save in lib/data dir
 ```
 
 > The `dist` root is `lib`
-
-## Run by code
-
-If you want to run json_model by code instead command line, you can:
-
-```dart
-import 'package:hf_json_model/hf_json_model.dart';
-void main() {
-  run(['src=jsons']);  //run
-}
-```
 

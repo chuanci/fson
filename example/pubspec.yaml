@@ -1,14 +1,12 @@
 name: example
 description: Gernerate model class from Json files.
-version: 0.0.1
-author: wendux <824783146@qq.com>
+version: 0.0.2
+author: chuanci <chuanci@vip.qq.com>
 homepage:
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dev_dependencies:
-  hf_json_model:
-    path: ../
-  build_runner: ^1.8.0
-  json_serializable: ^3.2.5
+  build_runner: ^1.10.0
+  json_serializable: ^3.3.0

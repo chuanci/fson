@@ -7,21 +7,56 @@ import 'package:fson/build_runner.dart' as br;
 const tpl =
     "import 'package:json_annotation/json_annotation.dart';\n%t\npart '%s.g.dart';\n\n@JsonSerializable()\nclass %s {\n    %s();\n\n    %s\n    factory %s.fromJson(Map<String,dynamic> json) => _\$%sFromJson(json);\n    Map<String, dynamic> toJson() => _\$%sToJson(this);\n}\n";
 
+const resTpl = """
+import 'index.dart';
+
+class %s<T> {
+  %s();
+  
+%s
+  
+  factory %s.fromJson(Map<String, dynamic> json) {
+    return %s<T>()%s;
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+%s
+    };
+  }
+}
+
+class %s<T> {
+  %s();
+  
+%s
+  
+  factory %s.fromJson(Map<String, dynamic> json) {
+    return %s<T>()%s;
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+%s    };
+  }
+}
+
+""";
+
+const fromJsonTpl = """
+fromJson<T>(Map<String, dynamic> json) {
+  %s
+}
+""";
+
 void main(List<String> args) {
   String src;
   String dist;
   String tag;
   var parser = new ArgParser();
-  parser.addOption('src',
-      defaultsTo: './jsons',
-      callback: (v) => src = v,
-      help: "Specify the json directory.");
-  parser.addOption('dist',
-      defaultsTo: 'lib/models',
-      callback: (v) => dist = v,
-      help: "Specify the dist directory.");
-  parser.addOption('tag',
-      defaultsTo: '\$', callback: (v) => tag = v, help: "Specify the tag ");
+  parser.addOption('src', defaultsTo: './jsons', callback: (v) => src = v, help: "Specify the json directory.");
+  parser.addOption('dist', defaultsTo: 'lib/models', callback: (v) => dist = v, help: "Specify the dist directory.");
+  parser.addOption('tag', defaultsTo: '\$', callback: (v) => tag = v, help: "Specify the tag ");
   parser.parse(args);
   print(args);
   if (walk(src, dist, tag)) {
@@ -37,6 +72,7 @@ bool walk(String srcDir, String distDir, String tag) {
   var src = Directory(srcDir);
   var list = src.listSync(recursive: true);
   String indexFile = "";
+  var jsonList = [];
   if (list.isEmpty) return false;
   if (!Directory(distDir).existsSync()) {
     Directory(distDir).createSync(recursive: true);
@@ -45,69 +81,162 @@ bool walk(String srcDir, String distDir, String tag) {
 //  var template= File(tpl).readAsStringSync();
 //  File(path.join(Directory.current.parent.path,"model.tplx")).writeAsString(jsonEncode(template));
   File file;
+
+  bool hasRes = false;
+  String rPath = "";
+
   list.forEach((f) {
     if (FileSystemEntity.isFileSync(f.path)) {
       file = File(f.path);
       var paths = path.basename(f.path).split(".");
       String name = paths.first;
-      if (paths.last.toLowerCase() != "json" || name.startsWith("_")) return;
-      if (name.startsWith("_")) return;
-      //下面生成模板
-      var map = json.decode(file.readAsStringSync());
-      //为了避免重复导入相同的包，我们用Set来保存生成的import语句。
-      var set = new Set<String>();
-      StringBuffer attrs = new StringBuffer();
-      (map as Map<String, dynamic>).forEach((key, v) {
-        if (key.startsWith("_")) return;
-        if (key.startsWith("@")) {
-          if (key.startsWith("@import")) {
-            set.add(key.substring(1) + " '$v'");
-            return;
+
+      if (name == "_r") {
+        hasRes = true;
+
+        var map = json.decode(file.readAsStringSync());
+        var set = new Set<String>();
+        String modelName = "";
+        String listName = "";
+        String pathName = "";
+
+        var modelTypeMap = {};
+        var listTypeMap = {};
+
+        (map as Map<String, dynamic>).forEach((key, v) {
+          if (key == "_m") {
+            modelName = v;
+          } else if (key == "_l") {
+            listName = v;
+          } else if (key == "_p") {
+            pathName = v;
+          } else if (key == "_d") {
+            modelTypeMap[v] = "T";
+            listTypeMap[v] = "List<T>";
+          } else {
+            modelTypeMap[key] = getType(v, set, name, tag);
+            listTypeMap[key] = getType(v, set, name, tag);
           }
-          attrs.write(key);
-          attrs.write(" ");
-          attrs.write(v);
-          attrs.writeln(";");
-        } else {
-          attrs.write(getType(v, set, name, tag));
-          attrs.write(" ");
-          attrs.write(key);
-          attrs.writeln(";");
-        }
-        attrs.write("    ");
-      });
-      String className = name[0].toUpperCase() + name.substring(1);
-      var dist = format(tpl, [
-        name,
-        className,
-        className,
-        attrs.toString(),
-        className,
-        className,
-        className
-      ]);
-      var _import = set.join(";\r\n");
-      _import += _import.isEmpty ? "" : ";";
-      dist = dist.replaceFirst("%t", _import);
-      //将生成的模板输出
-      var p =
-          f.path.replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
-      File(p)
-        ..createSync(recursive: true)
-        ..writeAsStringSync(dist);
-      var relative = p.replaceFirst(distDir + path.separator, "");
-      indexFile += "export '$relative' ; \n";
+        });
+
+        StringBuffer modelAttrs = StringBuffer();
+        StringBuffer modelFromJson = StringBuffer();
+        StringBuffer modelToJson = StringBuffer();
+
+        modelTypeMap.forEach((k, v) {
+          modelAttrs.writeln("  $v $k;");
+          modelFromJson.write("..$k = json['$k'] as $v");
+          modelToJson.writeln("      '$k': $k,");
+        });
+
+        StringBuffer listAttrs = StringBuffer();
+        StringBuffer listFromJson = StringBuffer();
+        StringBuffer listToJson = StringBuffer();
+
+        listTypeMap.forEach((k, v) {
+          listAttrs.writeln("  $v $k;");
+          if (v == "List<T>") {
+            listFromJson.write("..$k = (<T>[]..addAll(json['$k'].map((d) => fromJson<T>(d))))");
+          } else {
+            listFromJson.write("..$k = json['$k'] as $v");
+          }
+          listToJson.writeln("      '$k': $k,");
+        });
+
+        var dist = format(resTpl, [
+          modelName,
+          modelName,
+          modelAttrs.toString(),
+          modelName,
+          modelName,
+          modelFromJson.toString(),
+          modelToJson.toString(),
+          listName,
+          listName,
+          listAttrs.toString(),
+          listName,
+          listName,
+          listFromJson.toString(),
+          listToJson.toString()
+        ]);
+        var _import = set.join(";\r\n");
+        _import += _import.isEmpty ? "" : ";";
+        dist = dist.replaceFirst("%t", _import);
+        //将生成的模板输出
+        rPath = f.path.replaceFirst("_r.json", pathName).replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
+
+        File(rPath)
+          ..createSync(recursive: true)
+          ..writeAsStringSync(dist);
+//        var relative = rPath.replaceFirst(distDir + path.separator, "");
+      } else {
+        if (paths.last.toLowerCase() != "json" || name.startsWith("_")) return;
+        if (name.startsWith("_")) return;
+        //下面生成模板
+        var map = json.decode(file.readAsStringSync());
+        //为了避免重复导入相同的包，我们用Set来保存生成的import语句。
+        var set = new Set<String>();
+        StringBuffer attrs = new StringBuffer();
+        (map as Map<String, dynamic>).forEach((key, v) {
+          if (key.startsWith("_")) return;
+          if (key.startsWith("@")) {
+            if (key.startsWith("@import")) {
+              set.add(key.substring(1) + " '$v'");
+              return;
+            }
+            attrs.write(key);
+            attrs.write(" ");
+            attrs.write(v);
+            attrs.writeln(";");
+          } else {
+            attrs.write(getType(v, set, name, tag));
+            attrs.write(" ");
+            attrs.write(key);
+            attrs.writeln(";");
+          }
+          attrs.write("    ");
+        });
+        String className = name[0].toUpperCase() + name.substring(1);
+        var dist = format(tpl, [name, className, className, attrs.toString(), className, className, className]);
+        var _import = set.join(";\r\n");
+        _import += _import.isEmpty ? "" : ";";
+        dist = dist.replaceFirst("%t", _import);
+        //将生成的模板输出
+        var p = f.path.replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
+
+        File(p)
+          ..createSync(recursive: true)
+          ..writeAsStringSync(dist);
+        var relative = p.replaceFirst(distDir + path.separator, "");
+        indexFile += "export '$relative' ; \n";
+        jsonList.add(className);
+      }
     }
   });
   if (indexFile.isNotEmpty) {
+    if (hasRes) {
+      StringBuffer fromJsonSb = StringBuffer();
+
+      jsonList.forEach((e) {
+        fromJsonSb.write("""if (T == $e) {
+    return $e.fromJson(json);
+  } else """);
+      });
+      fromJsonSb.write("""{
+    return null;
+  }""");
+      File(rPath)
+        ..createSync(recursive: true)
+        ..writeAsStringSync(format(fromJsonTpl, [fromJsonSb.toString()]), mode: FileMode.append);
+    }
+
     File(path.join(distDir, "index.dart")).writeAsStringSync(indexFile);
   }
   return indexFile.isNotEmpty;
 }
 
 String changeFirstChar(String str, [bool upper = true]) {
-  return (upper ? str[0].toUpperCase() : str[0].toLowerCase()) +
-      str.substring(1);
+  return (upper ? str[0].toUpperCase() : str[0].toLowerCase()) + str.substring(1);
 }
 
 bool isBuiltInType(String type) {

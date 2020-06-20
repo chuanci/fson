@@ -141,7 +141,7 @@ bool walk(String srcDir, String distDir, String tag) {
           listAttrs.writeln("  $v $k;");
           if (v == "List<T>") {
             listFromJson.write(
-                "..$k = (<T>[]..addAll(json['$k'].map((d) => fromJson<T>(d))))");
+                "..$k = json['$k'].map((d) => fromJson<T>(d)).cast<T>().toList()");
           } else {
             listFromJson.write("..$k = json['$k'] as $v");
           }

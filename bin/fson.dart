@@ -13,16 +13,14 @@ import 'index.dart';
 class %s<T> {
   %s();
   
-%s
-  
+%s 
   factory %s.fromJson(Map<String, dynamic> json) {
     return %s<T>()%s;
   }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-%s
-    };
+%s    };
   }
 }
 
@@ -30,7 +28,6 @@ class %s<T> {
   %s();
   
 %s
-  
   factory %s.fromJson(Map<String, dynamic> json) {
     return %s<T>()%s;
   }
@@ -54,9 +51,16 @@ void main(List<String> args) {
   String dist;
   String tag;
   var parser = new ArgParser();
-  parser.addOption('src', defaultsTo: './jsons', callback: (v) => src = v, help: "Specify the json directory.");
-  parser.addOption('dist', defaultsTo: 'lib/models', callback: (v) => dist = v, help: "Specify the dist directory.");
-  parser.addOption('tag', defaultsTo: '\$', callback: (v) => tag = v, help: "Specify the tag ");
+  parser.addOption('src',
+      defaultsTo: './jsons',
+      callback: (v) => src = v,
+      help: "Specify the json directory.");
+  parser.addOption('dist',
+      defaultsTo: 'lib/models',
+      callback: (v) => dist = v,
+      help: "Specify the dist directory.");
+  parser.addOption('tag',
+      defaultsTo: '\$', callback: (v) => tag = v, help: "Specify the tag ");
   parser.parse(args);
   print(args);
   if (walk(src, dist, tag)) {
@@ -136,7 +140,8 @@ bool walk(String srcDir, String distDir, String tag) {
         listTypeMap.forEach((k, v) {
           listAttrs.writeln("  $v $k;");
           if (v == "List<T>") {
-            listFromJson.write("..$k = (<T>[]..addAll(json['$k'].map((d) => fromJson<T>(d))))");
+            listFromJson.write(
+                "..$k = (<T>[]..addAll(json['$k'].map((d) => fromJson<T>(d))))");
           } else {
             listFromJson.write("..$k = json['$k'] as $v");
           }
@@ -163,7 +168,10 @@ bool walk(String srcDir, String distDir, String tag) {
         _import += _import.isEmpty ? "" : ";";
         dist = dist.replaceFirst("%t", _import);
         //将生成的模板输出
-        rPath = f.path.replaceFirst("_r.json", pathName).replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
+        rPath = f.path
+            .replaceFirst("_r.json", pathName)
+            .replaceFirst(srcDir, distDir)
+            .replaceFirst(".json", ".dart");
 
         File(rPath)
           ..createSync(recursive: true)
@@ -197,18 +205,27 @@ bool walk(String srcDir, String distDir, String tag) {
           attrs.write("    ");
         });
         String className = name[0].toUpperCase() + name.substring(1);
-        var dist = format(tpl, [name, className, className, attrs.toString(), className, className, className]);
+        var dist = format(tpl, [
+          name,
+          className,
+          className,
+          attrs.toString(),
+          className,
+          className,
+          className
+        ]);
         var _import = set.join(";\r\n");
         _import += _import.isEmpty ? "" : ";";
         dist = dist.replaceFirst("%t", _import);
         //将生成的模板输出
-        var p = f.path.replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
+        var p =
+            f.path.replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart");
 
         File(p)
           ..createSync(recursive: true)
           ..writeAsStringSync(dist);
         var relative = p.replaceFirst(distDir + path.separator, "");
-        indexFile += "export '$relative' ; \n";
+        indexFile += "export '$relative'; \n";
         jsonList.add(className);
       }
     }
@@ -227,7 +244,10 @@ bool walk(String srcDir, String distDir, String tag) {
   }""");
       File(rPath)
         ..createSync(recursive: true)
-        ..writeAsStringSync(format(fromJsonTpl, [fromJsonSb.toString()]), mode: FileMode.append);
+        ..writeAsStringSync(format(fromJsonTpl, [fromJsonSb.toString()]),
+            mode: FileMode.append);
+      indexFile +=
+          "export '${rPath.replaceFirst(distDir + path.separator, "")}'; \n";
     }
 
     File(path.join(distDir, "index.dart")).writeAsStringSync(indexFile);
@@ -236,7 +256,8 @@ bool walk(String srcDir, String distDir, String tag) {
 }
 
 String changeFirstChar(String str, [bool upper = true]) {
-  return (upper ? str[0].toUpperCase() : str[0].toLowerCase()) + str.substring(1);
+  return (upper ? str[0].toUpperCase() : str[0].toLowerCase()) +
+      str.substring(1);
 }
 
 bool isBuiltInType(String type) {

@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:args/args.dart';
-import 'package:path/path.dart' as path;
 import 'package:fson/build_runner.dart' as br;
+import 'package:path/path.dart' as path;
 
 const tpl =
     "import 'package:json_annotation/json_annotation.dart';\n%t\npart '%s.g.dart';\n\n@JsonSerializable()\nclass %s {\n    %s();\n\n    %s\n    factory %s.fromJson(Map<String,dynamic> json) => _\$%sFromJson(json);\n    Map<String, dynamic> toJson() => _\$%sToJson(this);\n}\n";
@@ -230,28 +231,28 @@ bool walk(String srcDir, String distDir, String tag) {
       }
     }
   });
-  if (indexFile.isNotEmpty) {
-    if (hasRes) {
-      StringBuffer fromJsonSb = StringBuffer();
 
-      jsonList.forEach((e) {
-        fromJsonSb.write("""if (T == $e) {
+  if (hasRes) {
+    StringBuffer fromJsonSb = StringBuffer();
+
+    jsonList.forEach((e) {
+      fromJsonSb.write("""if (T == $e) {
     return $e.fromJson(json);
   } else """);
-      });
-      fromJsonSb.write("""{
+    });
+    fromJsonSb.write("""{
     return null;
   }""");
-      File(rPath)
-        ..createSync(recursive: true)
-        ..writeAsStringSync(format(fromJsonTpl, [fromJsonSb.toString()]),
-            mode: FileMode.append);
-      indexFile +=
-          "export '${rPath.replaceFirst(distDir + path.separator, "")}'; \n";
-    }
-
-    File(path.join(distDir, "index.dart")).writeAsStringSync(indexFile);
+    File(rPath)
+      ..createSync(recursive: true)
+      ..writeAsStringSync(format(fromJsonTpl, [fromJsonSb.toString()]),
+          mode: FileMode.append);
+    indexFile +=
+        "export '${rPath.replaceFirst(distDir + path.separator, "")}'; \n";
   }
+
+  File(path.join(distDir, "index.dart")).writeAsStringSync(indexFile);
+
   return indexFile.isNotEmpty;
 }
 

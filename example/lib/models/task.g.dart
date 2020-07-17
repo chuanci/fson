@@ -1,18 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'card.dart';
+part of 'task.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Card _$CardFromJson(Map<String, dynamic> json) {
-  return Card()
-    ..no = json['no'] as String
-    ..name = json['name'] as String;
+Task _$TaskFromJson(Map<String, dynamic> json) {
+  return Task()..name = json['name'] as num;
 }
 
-Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
-      'no': instance.no,
+Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'name': instance.name,
     };

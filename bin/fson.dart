@@ -241,7 +241,7 @@ bool walk(String srcDir, String distDir, String tag) {
 
     jsonList.forEach((e) {
       fromJsonSb.write("""
-  if (T == $e) {
+if (T == $e) {
     return $e.fromJson(data);
   } else """);
     });

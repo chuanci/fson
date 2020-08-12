@@ -42,7 +42,7 @@ class %s<T> {
 """;
 
 const fromJsonTpl = """
-fromJson<T>(Map<String, dynamic> json) {
+fromJson<T>(dynamic data) {
   %s
 }
 """;
@@ -101,9 +101,9 @@ bool walk(String srcDir, String distDir, String tag) {
 
         var map = json.decode(file.readAsStringSync());
         var set = new Set<String>();
-        String modelName = "";
-        String listName = "";
-        String pathName = "";
+        String modelName = "Resp";
+        String listName = "RespL";
+        String pathName = "resp.dart";
 
         var modelTypeMap = {};
         var listTypeMap = {};
@@ -130,7 +130,11 @@ bool walk(String srcDir, String distDir, String tag) {
 
         modelTypeMap.forEach((k, v) {
           modelAttrs.writeln("  $v $k;");
-          modelFromJson.write("..$k = json['$k'] as $v");
+          if (v == "T") {
+            modelFromJson.write("..$k = fromJson<T>(json['$k'])");
+          } else {
+            modelFromJson.write("..$k = json['$k'] as $v");
+          }
           modelToJson.writeln("      '$k': $k,");
         });
 
@@ -236,12 +240,13 @@ bool walk(String srcDir, String distDir, String tag) {
     StringBuffer fromJsonSb = StringBuffer();
 
     jsonList.forEach((e) {
-      fromJsonSb.write("""if (T == $e) {
-    return $e.fromJson(json);
+      fromJsonSb.write("""
+  if (T == $e) {
+    return $e.fromJson(data);
   } else """);
     });
     fromJsonSb.write("""{
-    return null;
+    return data;
   }""");
     File(rPath)
       ..createSync(recursive: true)

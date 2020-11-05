@@ -1,14 +1,12 @@
 
-Language: [English](README.md) | [中文简体](README-ZH.md)
 
+# fson [![Pub](https://img.shields.io/pub/v/fson.svg?style=flat-square)](https://pub.dartlang.org/packages/fson)
 
-# fson [![Pub](https://img.shields.io/pub/v/fson.svg?style=fifulat-square)](https://pub.dartlang.org/packages/fson)
+只用一行命令，直接将Json文件转为Dart model类。
 
-Gernerating Dart model class from Json file.
+## 安装
 
-## Installing
-
-`flutter pub global activate fson` or `pub global activate fson`
+`flutter pub global activate fson` 或者 `pub global activate fson`
 
 ```yaml
 dev_dependencies:
@@ -16,138 +14,218 @@ dev_dependencies:
   json_serializable: any
 ```
 
-## Getting Started
+## 使用
 
-1. Create a "jsons" directory in the root of your project;
-2. Create a Json file under "jsons" dir ;
-3. Run `fson`
+1. 在工程根目录下创建一个名为 "jsons" 的目录;
+2. 创建或拷贝Json文件到"jsons" 目录中 ;
+3. 运行 `fson` 命令生成Dart model类，生成的文件默认在"lib/models"目录下
 
-## Examples
 
-File: `jsons/user.json`
 
-```javascript
-{
-  "name":"wendux",
-  "father":"$user", //Other class model 
-  "friends":"$[]user", // Array  
-  "keywords":"$[]String", // Array
-  "age":20
-}
+### 特殊 Key
+
+#### "_"开头
+
+以 _ 开头的 Key 将被 fson过滤
+
+#### @import
+
+> 在生成的Dart类中导入指定的文件
+
 ```
+{
+  "@import": "test/index.dart",
+  "name": "fson"
+}
 
-Run `pub run fson`, then  you'll see the generated json file under  `lib/models/` dir:
+// ------------------------------------------------------------
 
-```dart
 import 'package:json_annotation/json_annotation.dart';
-part 'user.g.dart';
+import 'index.dart';
+import 'test/index.dart';
+
+part 'test.g.dart';
 
 @JsonSerializable()
-class User {
-    User();
-    
-    String name;
-    User father;
-    List<User> friends;
-    List<String> keywords;
-    num age;
-    
-    factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
-    Map<String, dynamic> toJson() => _$UserToJson(this);
-}
+class Test {
+  Test({
+    this.name,
+  });
 
+  String name;
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
+}
 ```
 
-### @JsonKey
+#### @data
+通用结构
 
-You can also use “@JsonKey” annotation from [json_annotation](https://pub.dev/packages/json_annotation) package.
-
-```json
+```
 {
-  "@JsonKey(ignore: true) dynamic":"md",
-  "@JsonKey(name: '+1') int": "loved",
-  "name":"wendux",
-  "age":20
+  "@data": "response",
+  "name": "fson"
 }
-```
 
-The generated class is:
+// ------------------------------------------------------------
 
-```dart
 import 'package:json_annotation/json_annotation.dart';
-part 'user.g.dart';
+import 'index.dart';
+
+part 'test.g.dart';
 
 @JsonSerializable()
-class User {
-    User();
+class Test<T> {
+  Test({
+    this.name,
+  });
 
-    @JsonKey(ignore: true) dynamic md;
-    @JsonKey(name: '+1') int loved;
-    String name;
-    num age;
-    
-    factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
-    Map<String, dynamic> toJson() => _$UserToJson(this);
+  String name;
+
+  @Converter()
+  T response;
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
 }
-```
-
-Test:
-
-```dart
-import 'models/index.dart';
-
-void main() {
-  var u = User.fromJson({"name": "Jack", "age": 16, "+1": 20});
-  print(u.loved); // 20
-}
-```
-
-### @Import 
-
-```javascript
-{
-  "@import":"test_dir/profile.dart", //import file for model class
-  "@JsonKey(ignore: true) Profile":"profile",
-  "name":"wendux",
-  "age":20
-}
-```
-
-The generated class:
-
-```dart
-import 'package:json_annotation/json_annotation.dart';
-import 'test_dir/profile.dart';  // import file
-part 'user.g.dart';
 
 @JsonSerializable()
-class User {
-    User();
+class TestL<T> {
+  TestL({
+    this.name,
+  });
 
-    @JsonKey(ignore: true) Profile profile; //file
-    String name;
-    num age;
-    
-    factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
-    Map<String, dynamic> toJson() => _$UserToJson(this);
+  String name;
+
+  @Converter()
+  List<T> response;
+
+  factory TestL.fromJson(Map<String, dynamic> json) => _$TestLFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestLToJson(this);
+}
+
+```
+
+### 特殊 Value
+
+#### "$" 开头
+$ 为 tag 值 ，可修改。
+
+```
+{
+  "age": "$int",
+  "name": "fson"
+}
+
+// ------------------------------------------------------------
+
+import 'package:json_annotation/json_annotation.dart';
+import 'index.dart';
+
+part 'test.g.dart';
+
+@JsonSerializable()
+class Test {
+  Test({
+    this.age,
+    this.name,
+  });
+
+  int age;
+  String name;
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
 }
 ```
 
-For completed examples see [here](https://github.com/chuanci/fson/tree/master/example) .
+#### "$[]" 开头
+$ 为 tag 值 ，可修改。
 
-##  Command arguments
 
-The default json source file directory is ` project_root/jsons`;  you can custom the src file directory by `src` argument, for example:
+```
+{
+  "age": "$[]int",
+  "name": "fson"
+}
+
+// ------------------------------------------------------------
+
+import 'package:json_annotation/json_annotation.dart';
+import 'index.dart';
+
+part 'test.g.dart';
+
+@JsonSerializable()
+class Test {
+  Test({
+    this.age,
+    this.name,
+  });
+
+  List<int> age;
+  String name;
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
+}
+
+```
+
+#### 以 "@" 开头
+
+您也可以使用[json_annotation](https://pub.dev/packages/json_annotation)包中的“@JsonKey”标注特定的字段。
+
+```
+{
+  "name": "@JsonKey() String"
+}
+
+// ------------------------------------------------------------
+
+import 'package:json_annotation/json_annotation.dart';
+import 'index.dart';
+
+part 'test.g.dart';
+
+@JsonSerializable()
+class Test {
+  Test({
+    this.name,
+  });
+
+  @JsonKey()
+  String name;
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
+}
+
+```
+
+##  命令参数
+
+默认的源json文件目录为根目录下名为 "json" 的目录；可以通过 `src` 参数自定义源json文件目录，可以通过`dist` 参数来自定义输出目录,例如:
 
 ```shell
-fson src=json_files 
+fson src=json_files  dist=data  # 输出目录为 lib/data
 ```
 
-You can also custom the dist directory by `dist` argument:
-
-```shell
-fson src=json_files  dist=data # will save in lib/data dir
+## help
 ```
-
-> The `dist` root is `lib`
+-s, --src     Specify the json directory.
+              (defaults to "./jsons")
+-d, --dist    Specify the dist directory.
+              (defaults to "lib/models")
+-t, --tag     Specify the tag
+              (defaults to "$")
+-h, --help    help
+```
 

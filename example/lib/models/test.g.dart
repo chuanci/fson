@@ -1,19 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'task.dart';
+part of 'test.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Task _$TaskFromJson(Map<String, dynamic> json) {
-  return Task(
+Test _$TestFromJson(Map<String, dynamic> json) {
+  return Test(
     name: json['name'] as String,
-    msg: json['msg'] as String,
   );
 }
 
-Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
+Map<String, dynamic> _$TestToJson(Test instance) => <String, dynamic>{
       'name': instance.name,
-      'msg': instance.msg,
     };

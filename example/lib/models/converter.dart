@@ -7,12 +7,8 @@ class Converter<T> implements JsonConverter<T, Object> {
   @override
   T fromJson(Object json) {
     switch (T) {
-      case Task:
-        return Task.fromJson(json) as T;
-      case Test:
-        return Test.fromJson(json) as T;
-      case Response:
-        return Response.fromJson(json) as T;
+      case UserInfo:
+        return UserInfo.fromJson(json) as T;
       default:
         return json as T;
     }

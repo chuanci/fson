@@ -8,6 +8,7 @@ class Response<T> {
   Response({
     this.code, 
     this.msg, 
+    this.data, 
   });
     
   num code;
@@ -26,6 +27,7 @@ class ResponseL<T> {
   ResponseL({
     this.code, 
     this.msg, 
+    this.data, 
   });
   
   num code;

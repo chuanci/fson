@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'test.dart';
+part of 'user_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Test _$TestFromJson(Map<String, dynamic> json) {
-  return Test(
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
+  return UserInfo(
     name: json['name'] as String,
   );
 }
 
-Map<String, dynamic> _$TestToJson(Test instance) => <String, dynamic>{
+Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'name': instance.name,
     };

@@ -33,7 +33,17 @@ class Json {
 
   bool get isResponse => dataName != null;
 
-  Json({this.srcPath, this.distPath, this.export, this.fields, this.imports, this.fileName, this.className, this.dataName, this.tag, this.rawFields}) {
+  Json(
+      {this.srcPath,
+      this.distPath,
+      this.export,
+      this.fields,
+      this.imports,
+      this.fileName,
+      this.className,
+      this.dataName,
+      this.tag,
+      this.rawFields}) {
     fields ??= [];
     imports ??= Set<String>();
     rawFields ??= [];

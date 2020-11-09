@@ -10,7 +10,8 @@ Response<T> _$ResponseFromJson<T>(Map<String, dynamic> json) {
   return Response<T>(
     code: json['code'] as num,
     msg: json['msg'] as String,
-  )..data = Converter<T>().fromJson(json['data']);
+    data: Converter<T>().fromJson(json['data']),
+  );
 }
 
 Map<String, dynamic> _$ResponseToJson<T>(Response<T> instance) =>
@@ -24,7 +25,8 @@ ResponseL<T> _$ResponseLFromJson<T>(Map<String, dynamic> json) {
   return ResponseL<T>(
     code: json['code'] as num,
     msg: json['msg'] as String,
-  )..data = (json['data'] as List)?.map(Converter<T>().fromJson)?.toList();
+    data: (json['data'] as List)?.map(Converter<T>().fromJson)?.toList(),
+  );
 }
 
 Map<String, dynamic> _$ResponseLToJson<T>(ResponseL<T> instance) =>

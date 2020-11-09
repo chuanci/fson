@@ -16,7 +16,8 @@ class FlutterJsonBuilder {
 
   FlutterJsonBuilder(this.srcDir, this.distDir, this.tag) {
     if (srcDir.endsWith("/")) srcDir = srcDir.substring(0, srcDir.length - 1);
-    if (distDir.endsWith("/")) distDir = distDir.substring(0, distDir.length - 1);
+    if (distDir.endsWith("/"))
+      distDir = distDir.substring(0, distDir.length - 1);
 
     var src = Directory(srcDir);
     fileList = src.listSync(recursive: true);
@@ -36,10 +37,14 @@ class FlutterJsonBuilder {
     if (paths.last.toLowerCase() != "json" || name.startsWith("_")) return null;
     Json mJson = Json(
       srcPath: file.path,
-      distPath: file.path.replaceFirst(srcDir, distDir).replaceFirst(".json", ".dart"),
-      export: file.path.replaceFirst(srcDir + path.separator, "").replaceFirst(".json", ".dart"),
+      distPath: file.path
+          .replaceFirst(srcDir, distDir)
+          .replaceFirst(".json", ".dart"),
+      export: file.path
+          .replaceFirst(srcDir + path.separator, "")
+          .replaceFirst(".json", ".dart"),
       fileName: name,
-      className: StringUtils.toCapitalize(name),
+      className: StringUtils.toHump(name),
       tag: tag,
     );
     Map<String, dynamic> jsonMap = json.decode(file.readAsStringSync());
@@ -49,7 +54,11 @@ class FlutterJsonBuilder {
 
   bool build() {
     if (fileList.isEmpty) return false;
-    List<Json> jsons = fileList.map((file) => buildJson(file)).cast<Json>().where((element) => element != null).toList();
+    List<Json> jsons = fileList
+        .map((file) => buildJson(file))
+        .cast<Json>()
+        .where((element) => element != null)
+        .toList();
 
     // index.dart
     File(path.join(distDir, 'index.dart'))
@@ -67,7 +76,10 @@ class FlutterJsonBuilder {
       }
       File(element.distPath)
         ..createSync()
-        ..writeAsStringSync((element.isResponse ? ResponseTemplate(mJson: element) : NormalTemplate(mJson: element)).toString());
+        ..writeAsStringSync((element.isResponse
+                ? ResponseTemplate(mJson: element)
+                : NormalTemplate(mJson: element))
+            .toString());
     });
 
     return true;

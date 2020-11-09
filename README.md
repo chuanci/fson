@@ -1,10 +1,8 @@
-
-
 # fson [![Pub](https://img.shields.io/pub/v/fson.svg?style=flat-square)](https://pub.dartlang.org/packages/fson)
 
 只用一行命令，直接将Json文件转为Dart model类。
 
-## 安装
+# 安装
 
 `flutter pub global activate fson` 或者 `pub global activate fson`
 
@@ -14,21 +12,20 @@ dev_dependencies:
   json_serializable: any
 ```
 
-## 使用
+# 使用
 
 1. 在工程根目录下创建一个名为 "jsons" 的目录;
 2. 创建或拷贝Json文件到"jsons" 目录中 ;
 3. 运行 `fson` 命令生成Dart model类，生成的文件默认在"lib/models"目录下
 
 
+## 特殊 Key
 
-### 特殊 Key
+### "_"开头
 
-#### "_"开头
+以 _ 开头的 Key 将被 fson 过滤
 
-以 _ 开头的 Key 将被 fson过滤
-
-#### @import
+### @import
 
 > 在生成的Dart类中导入指定的文件
 
@@ -60,12 +57,12 @@ class Test {
 }
 ```
 
-#### @data
+### @data
 通用结构
 
 ```
 {
-  "@data": "response",
+  "@data": "data",
   "name": "fson"
 }
 
@@ -80,12 +77,13 @@ part 'test.g.dart';
 class Test<T> {
   Test({
     this.name,
+    this.data,
   });
 
   String name;
 
   @Converter()
-  T response;
+  T data;
 
   factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
 
@@ -96,12 +94,13 @@ class Test<T> {
 class TestL<T> {
   TestL({
     this.name,
+    this.data,
   });
 
   String name;
 
   @Converter()
-  List<T> response;
+  List<T> data;
 
   factory TestL.fromJson(Map<String, dynamic> json) => _$TestLFromJson(json);
 
@@ -110,9 +109,9 @@ class TestL<T> {
 
 ```
 
-### 特殊 Value
+## 特殊 Value
 
-#### "$" 开头
+### "$" 开头
 $ 为 tag 值 ，可修改。
 
 ```
@@ -144,9 +143,8 @@ class Test {
 }
 ```
 
-#### "$[]" 开头
-$ 为 tag 值 ，可修改。
-
+### "$[]" 开头
+$ 为 tag 值 ，可修改。( -t, --tag     Specify the tag )
 
 ```
 {
@@ -178,7 +176,7 @@ class Test {
 
 ```
 
-#### 以 "@" 开头
+### 以 "@" 开头
 
 您也可以使用[json_annotation](https://pub.dev/packages/json_annotation)包中的“@JsonKey”标注特定的字段。
 
@@ -210,7 +208,7 @@ class Test {
 
 ```
 
-##  命令参数
+#  命令参数
 
 默认的源json文件目录为根目录下名为 "json" 的目录；可以通过 `src` 参数自定义源json文件目录，可以通过`dist` 参数来自定义输出目录,例如:
 

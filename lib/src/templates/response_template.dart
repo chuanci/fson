@@ -29,6 +29,7 @@ class {{ className }}<T> {
 {{ #rawFields }}
     this.{{ name }}, 
 {{ /rawFields }}
+    this.{{ dataName }}, 
   });
     
 {{ #fields }}
@@ -55,6 +56,7 @@ class {{ className }}L<T> {
 {{ #rawFields }}
     this.{{ name }}, 
 {{ /rawFields }}
+    this.{{ dataName }}, 
   });
   
 {{ #fields }}

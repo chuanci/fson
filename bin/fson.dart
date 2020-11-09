@@ -8,9 +8,21 @@ void main(List<String> args) {
   String tag;
   var parser = new ArgParser();
   parser
-    ..addOption('src', abbr: 's', defaultsTo: './jsons', callback: (v) => src = v, help: "Specify the json directory.")
-    ..addOption('dist', abbr: 'd', defaultsTo: 'lib/models', callback: (v) => dist = v, help: "Specify the dist directory.")
-    ..addOption('tag', abbr: 't', defaultsTo: '\$', callback: (v) => tag = v, help: "Specify the tag ")
+    ..addOption('src',
+        abbr: 's',
+        defaultsTo: './jsons',
+        callback: (v) => src = v,
+        help: "Specify the json directory.")
+    ..addOption('dist',
+        abbr: 'd',
+        defaultsTo: 'lib/models',
+        callback: (v) => dist = v,
+        help: "Specify the dist directory.")
+    ..addOption('tag',
+        abbr: 't',
+        defaultsTo: '\$',
+        callback: (v) => tag = v,
+        help: "Specify the tag ")
     ..addFlag('help', abbr: 'h', negatable: false, help: "help");
   parser.parse(args);
   ArgResults argResults = parser.parse(args);
@@ -19,6 +31,7 @@ void main(List<String> args) {
     return;
   }
   if (FlutterJsonBuilder(src, dist, tag).build()) {
-    Shell().run("flutter packages pub run build_runner build --delete-conflicting-outputs");
+    Shell().run(
+        "flutter packages pub run build_runner build --delete-conflicting-outputs");
   }
 }

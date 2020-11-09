@@ -10,7 +10,7 @@ class ConverterTemplate {
   ConverterTemplate({this.jsons});
 
   Map get templateData => json.decode(json.encode({
-        "jsons": jsons,
+        "jsons": jsons.where((element) => !element.isResponse).toList(),
       }));
 
   String tpl = r"""

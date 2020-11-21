@@ -16,15 +16,14 @@ class TypePlugin extends BasePlugin {
         String type = value.substring(1);
         type = isBuiltInType(type) ? type : StringUtils.toCapitalize(type);
         mJson.fields.add(Field(type: "$type", name: key));
+      } else if (value == "@data") {
+        mJson.dataName = key;
       } else if (value.startsWith("@")) {
         // 注解类型
         mJson.rawFields.add(RawField(raw: value, name: key));
-      } else if (key == "@data") {
-        mJson.dataName = value;
       } else {
         mJson.fields.add(Field(type: "String", name: key));
       }
-      return true;
     } else if (value is bool) {
       mJson.fields.add(Field(type: "bool", name: key));
     } else if (value is num) {

@@ -57,12 +57,14 @@ class Test {
 }
 ```
 
+
+## 特殊 Value
+
 ### @data
-通用结构
 
 ```
 {
-  "@data": "data",
+  "data": "@data",
   "name": "fson"
 }
 
@@ -108,8 +110,6 @@ class TestL<T> {
 }
 
 ```
-
-## 特殊 Value
 
 ### "$" 开头
 $ 为 tag 值 ，可修改。

@@ -1,5 +1,5 @@
 {
   "code": 0,
   "msg": "success",
-  "@data": "data"
+  "data": "@data"
 }

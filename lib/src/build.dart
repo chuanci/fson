@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:fson/src/models/index.dart';
 import 'package:fson/src/plugins/index.dart';
 import 'package:fson/src/templates/index.dart';
-import 'package:fson/src/utils/string_utils.dart';
 import 'package:path/path.dart' as path;
+import 'package:wings_extensions/index.dart';
 
 class FlutterJsonBuilder {
   String srcDir;
@@ -20,7 +20,10 @@ class FlutterJsonBuilder {
       distDir = distDir.substring(0, distDir.length - 1);
 
     var src = Directory(srcDir);
-    fileList = src.listSync(recursive: true);
+    fileList = src
+        .listSync(recursive: true)
+        .where((element) => element is File)
+        .toList();
 
     if (!Directory(distDir).existsSync()) {
       Directory(distDir).createSync(recursive: true);
@@ -44,7 +47,7 @@ class FlutterJsonBuilder {
           .replaceFirst(srcDir + path.separator, "")
           .replaceFirst(".json", ".dart"),
       fileName: name,
-      className: StringUtils.toHump(name),
+      className: name.toBigHump(),
       tag: tag,
     );
     Map<String, dynamic> jsonMap = json.decode(file.readAsStringSync());
@@ -62,12 +65,12 @@ class FlutterJsonBuilder {
 
     // index.dart
     File(path.join(distDir, 'index.dart'))
-      ..createSync()
+      ..createSync(recursive: true)
       ..writeAsStringSync(IndexTemplate(jsons: jsons).toString());
 
     // converter.dart
     File(path.join(distDir, 'converter.dart'))
-      ..createSync()
+      ..createSync(recursive: true)
       ..writeAsStringSync(ConverterTemplate(jsons: jsons).toString());
 
     jsons.forEach((element) {
@@ -75,9 +78,9 @@ class FlutterJsonBuilder {
         return;
       }
       File(element.distPath)
-        ..createSync()
+        ..createSync(recursive: true)
         ..writeAsStringSync((element.isResponse
-                ? ResponseTemplate(mJson: element)
+                ? DataTemplate(mJson: element)
                 : NormalTemplate(mJson: element))
             .toString());
     });

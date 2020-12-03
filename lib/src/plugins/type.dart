@@ -1,6 +1,6 @@
 import 'package:fson/src/models/index.dart';
 import 'package:fson/src/plugins/base.dart';
-import 'package:fson/src/utils/string_utils.dart';
+import 'package:wings_extensions/index.dart';
 
 class TypePlugin extends BasePlugin {
   @override
@@ -9,12 +9,12 @@ class TypePlugin extends BasePlugin {
       if (value.startsWith("${mJson.tag}[]")) {
         // 特殊列表类型
         String type = value.substring(3);
-        type = isBuiltInType(type) ? type : StringUtils.toCapitalize(type);
+        type = isBuiltInType(type) ? type : type.toCapitalize();
         mJson.fields.add(Field(type: "List<$type>", name: key));
       } else if (value.startsWith("${mJson.tag}")) {
         // 特殊类型
         String type = value.substring(1);
-        type = isBuiltInType(type) ? type : StringUtils.toCapitalize(type);
+        type = isBuiltInType(type) ? type : type.toCapitalize();
         mJson.fields.add(Field(type: "$type", name: key));
       } else if (value == "@data") {
         mJson.dataName = key;

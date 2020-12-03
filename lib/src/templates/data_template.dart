@@ -4,11 +4,11 @@ import 'package:fson/src/models/field.dart';
 import 'package:fson/src/models/index.dart';
 import 'package:mustache_template/mustache.dart';
 
-/// response 模版
-class ResponseTemplate {
+/// data 模版
+class DataTemplate {
   Json mJson;
 
-  ResponseTemplate({this.mJson});
+  DataTemplate({this.mJson});
 
   Map get templateData => json.decode(json.encode(mJson));
 

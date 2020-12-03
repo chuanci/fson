@@ -1,6 +1,6 @@
 name: fson
 description: Gernerating Dart model class from Json file.
-version: 1.0.1
+version: 1.0.2
 author: chuanci <chuanci@vip.qq.com>
 homepage: https://github.com/chuanci/fson
 
@@ -12,8 +12,9 @@ dependencies:
   process_run: ^0.11.0+2
   mustache_template: ^1.0.0+1
   path: 1.6.4
+  wings_extensions: ^0.0.1
 
-dev_dependencies:
+#dev_dependencies:
 
 executables:
   fson:

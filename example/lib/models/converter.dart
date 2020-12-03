@@ -9,6 +9,8 @@ class Converter<T> implements JsonConverter<T, Object> {
     switch (T) {
       case UserInfo:
         return UserInfo.fromJson(json) as T;
+      case Test:
+        return Test.fromJson(json) as T;
       default:
         return json as T;
     }

@@ -4,7 +4,7 @@ import 'package:fson/src/models/index.dart';
 import 'package:fson/src/plugins/index.dart';
 import 'package:fson/src/templates/index.dart';
 import 'package:path/path.dart' as path;
-import 'package:wings_extensions/index.dart';
+import 'package:wings_extensions/wings_extensions.dart';
 
 class FlutterJsonBuilder {
   String srcDir;

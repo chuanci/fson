@@ -85,13 +85,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.0"
-  characters:
-    dependency: transitive
-    description:
-      name: characters
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0-nullsafety.3"
   charcode:
     dependency: transitive
     description:
@@ -155,18 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.11"
-  flutter:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   fson:
     dependency: "direct dev"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   glob:
     dependency: transitive
     description:
@@ -342,11 +330,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
-  sky_engine:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.99"
   source_gen:
     dependency: transitive
     description:
@@ -417,13 +400,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0-nullsafety.3"
-  vector_math:
-    dependency: transitive
-    description:
-      name: vector_math
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0-nullsafety.3"
   watcher:
     dependency: transitive
     description:
@@ -444,7 +420,7 @@ packages:
       name: wings_extensions
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.2"
   yaml:
     dependency: transitive
     description:

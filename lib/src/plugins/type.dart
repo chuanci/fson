@@ -1,6 +1,6 @@
 import 'package:fson/src/models/index.dart';
 import 'package:fson/src/plugins/base.dart';
-import 'package:wings_extensions/index.dart';
+import 'package:wings_extensions/wings_extensions.dart';
 
 class TypePlugin extends BasePlugin {
   @override
@@ -39,6 +39,7 @@ class TypePlugin extends BasePlugin {
   }
 
   bool isBuiltInType(String type) {
-    return ['int', 'num', 'string', 'double', 'map', 'list'].contains(type);
+    return ['int', 'num', 'String', 'double', 'map', 'list', 'bool']
+        .contains(type);
   }
 }

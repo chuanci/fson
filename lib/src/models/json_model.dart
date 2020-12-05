@@ -1,7 +1,6 @@
-import 'package:fson/src/models/field.dart';
 import 'package:fson/src/models/index.dart';
 
-class Json {
+class JsonModel {
   // .json 文件path
   String srcPath;
 
@@ -26,14 +25,11 @@ class Json {
   // dataName != null 则为response json
   String dataName;
 
-  // tag
-  String tag;
-
   List<RawField> rawFields;
 
-  bool get isResponse => dataName != null;
+  bool get isResult => dataName != null;
 
-  Json(
+  JsonModel(
       {this.srcPath,
       this.distPath,
       this.export,
@@ -42,7 +38,6 @@ class Json {
       this.fileName,
       this.className,
       this.dataName,
-      this.tag,
       this.rawFields}) {
     fields ??= [];
     imports ??= Set<String>();
@@ -58,7 +53,6 @@ class Json {
         "fileName": fileName,
         "className": className,
         "dataName": dataName,
-        "tag": tag,
         "rawFields": rawFields,
       };
 }

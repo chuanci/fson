@@ -1,11 +1,10 @@
 import 'package:args/args.dart';
-import 'package:fson/index.dart';
+import 'package:fson/fson.dart';
 import 'package:process_run/shell.dart';
 
 void main(List<String> args) {
   String src;
   String dist;
-  String tag;
   var parser = new ArgParser();
   parser
     ..addOption('src',
@@ -18,11 +17,6 @@ void main(List<String> args) {
         defaultsTo: 'lib/models',
         callback: (v) => dist = v,
         help: "Specify the dist directory.")
-    ..addOption('tag',
-        abbr: 't',
-        defaultsTo: '\$',
-        callback: (v) => tag = v,
-        help: "Specify the tag ")
     ..addFlag('help', abbr: 'h', negatable: false, help: "help");
   parser.parse(args);
   ArgResults argResults = parser.parse(args);
@@ -30,7 +24,7 @@ void main(List<String> args) {
     print(parser.usage);
     return;
   }
-  if (FlutterJsonBuilder(src, dist, tag).build()) {
+  if (FlutterJsonBuilder(src, dist).build()) {
     Shell().run(
         "flutter packages pub run build_runner build --delete-conflicting-outputs");
   }

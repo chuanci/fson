@@ -1,3 +1,5 @@
 {
-  "name": "@JsonKey() String"
+  "name": "@JsonKey(name:'_name') String",
+  "my_age": 1,
+  "_test": ""
 }

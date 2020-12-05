@@ -21,4 +21,3 @@ class Converter<T> implements JsonConverter<T, Object> {
     return object;
   }
 }
-  

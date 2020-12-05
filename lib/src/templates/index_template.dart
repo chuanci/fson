@@ -4,20 +4,20 @@ import 'package:fson/src/models/index.dart';
 import 'package:mustache_template/mustache.dart';
 
 class IndexTemplate {
-  List<Json> jsons;
+  List<JsonModel> jsonModels;
 
-  IndexTemplate({this.jsons});
+  IndexTemplate(this.jsonModels);
 
   Map get templateData => json.decode(json.encode({
-        "jsons": jsons,
+        "jsonModels": jsonModels,
       }));
 
   String tpl = """
-export 'converter.dart';
-{{ #jsons }}
+export 'a.converter.dart';
+{{ #jsonModels }}
 export '{{ export }}';
-{{ /jsons }}
-  """;
+{{ /jsonModels }}
+""";
 
   @override
   String toString() {

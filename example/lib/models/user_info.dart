@@ -6,13 +6,15 @@ part 'user_info.g.dart';
 @JsonSerializable()
 class UserInfo {
   UserInfo({
+    this.myAge, 
     this.name, 
   });
 
-  @JsonKey() String name;
+  @JsonKey(name: 'my_age')
+  num myAge;
+  @JsonKey(name:'_name') String name;
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
 }
-  

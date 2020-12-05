@@ -5,12 +5,13 @@ import 'package:mustache_template/mustache.dart';
 
 /// converter template
 class ConverterTemplate {
-  List<Json> jsons;
+  List<JsonModel> jsonModels;
 
-  ConverterTemplate({this.jsons});
+  ConverterTemplate(this.jsonModels);
 
   Map get templateData => json.decode(json.encode({
-        "jsons": jsons.where((element) => !element.isResponse).toList(),
+        "jsonModels":
+            jsonModels.where((jsonModel) => !jsonModel.isResult).toList(),
       }));
 
   String tpl = r"""
@@ -23,10 +24,10 @@ class Converter<T> implements JsonConverter<T, Object> {
   @override
   T fromJson(Object json) {
     switch (T) {
-{{ #jsons }}
+{{ #jsonModels }}
       case {{ className }}:
         return {{ className }}.fromJson(json) as T;
-{{ /jsons }}
+{{ /jsonModels }}
       default:
         return json as T;
     }
@@ -37,7 +38,7 @@ class Converter<T> implements JsonConverter<T, Object> {
     return object;
   }
 }
-  """;
+""";
 
   @override
   String toString() {

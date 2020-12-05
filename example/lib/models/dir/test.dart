@@ -15,4 +15,3 @@ class Test {
 
   Map<String, dynamic> toJson() => _$TestToJson(this);
 }
-  

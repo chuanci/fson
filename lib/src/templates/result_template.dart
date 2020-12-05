@@ -1,16 +1,15 @@
 import 'dart:convert';
 
-import 'package:fson/src/models/field.dart';
 import 'package:fson/src/models/index.dart';
 import 'package:mustache_template/mustache.dart';
 
-/// data 模版
-class DataTemplate {
-  Json mJson;
+/// result 模版
+class ResultTemplate {
+  JsonModel jsonModel;
 
-  DataTemplate({this.mJson});
+  ResultTemplate(this.jsonModel);
 
-  Map get templateData => json.decode(json.encode(mJson));
+  Map get templateData => json.decode(json.encode(jsonModel));
 
   String tpl = r"""
 import 'package:json_annotation/json_annotation.dart';
@@ -24,16 +23,28 @@ part '{{ fileName }}.g.dart';
 class {{ className }}<T> {
   {{ className }}({
 {{ #fields }}
+{{ #hasJsonKey }}
+    this.{{ jkName }}, 
+{{ /hasJsonKey }}
+{{ ^hasJsonKey }}
     this.{{ name }}, 
+{{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
     this.{{ name }}, 
 {{ /rawFields }}
     this.{{ dataName }}, 
   });
-    
+
+
 {{ #fields }}
+{{ #hasJsonKey }}
+  @JsonKey(name: '{{ name }}')
+  {{ type }} {{ jkName }};
+{{ /hasJsonKey }}
+{{ ^hasJsonKey }}
   {{ type }} {{ name }};
+{{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
   {{ raw }} 

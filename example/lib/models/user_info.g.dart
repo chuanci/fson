@@ -8,10 +8,12 @@ part of 'user_info.dart';
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
   return UserInfo(
-    name: json['name'] as String,
+    myAge: json['my_age'] as num,
+    name: json['_name'] as String,
   );
 }
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
-      'name': instance.name,
+      'my_age': instance.myAge,
+      '_name': instance.name,
     };

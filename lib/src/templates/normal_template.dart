@@ -4,11 +4,11 @@ import 'package:fson/src/models/index.dart';
 import 'package:mustache_template/mustache.dart';
 
 class NormalTemplate {
-  Json mJson;
+  JsonModel jsonModel;
 
-  NormalTemplate({this.mJson});
+  NormalTemplate(this.jsonModel);
 
-  Map get templateData => json.decode(json.encode(mJson));
+  Map get templateData => json.decode(json.encode(jsonModel));
 
   String tpl = r"""
 import 'package:json_annotation/json_annotation.dart';
@@ -22,7 +22,12 @@ part '{{ fileName }}.g.dart';
 class {{ className }} {
   {{ className }}({
 {{ #fields }}
+{{ #hasJsonKey }}
+    this.{{ jkName }}, 
+{{ /hasJsonKey }}
+{{ ^hasJsonKey }}
     this.{{ name }}, 
+{{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
     this.{{ name }}, 
@@ -30,7 +35,13 @@ class {{ className }} {
   });
 
 {{ #fields }}
+{{ #hasJsonKey }}
+  @JsonKey(name: '{{ name }}')
+  {{ type }} {{ jkName }};
+{{ /hasJsonKey }}
+{{ ^hasJsonKey }}
   {{ type }} {{ name }};
+{{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
   {{ raw }} {{ name }};
@@ -40,7 +51,7 @@ class {{ className }} {
 
   Map<String, dynamic> toJson() => _${{ className }}ToJson(this);
 }
-  """;
+""";
 
   @override
   String toString() {

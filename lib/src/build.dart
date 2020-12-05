@@ -9,12 +9,11 @@ import 'package:wings_extensions/wings_extensions.dart';
 class FlutterJsonBuilder {
   String srcDir;
   String distDir;
-  String tag;
   List<FileSystemEntity> fileList;
   String indexFile = "";
   var jsonList = [];
 
-  FlutterJsonBuilder(this.srcDir, this.distDir, this.tag) {
+  FlutterJsonBuilder(this.srcDir, this.distDir) {
     if (srcDir.endsWith("/")) srcDir = srcDir.substring(0, srcDir.length - 1);
     if (distDir.endsWith("/"))
       distDir = distDir.substring(0, distDir.length - 1);
@@ -30,7 +29,7 @@ class FlutterJsonBuilder {
     }
   }
 
-  Json buildJson(File file) {
+  JsonModel buildJson(File file) {
     // json文件不存在 ，返回 null
     if (!FileSystemEntity.isFileSync(file.path)) return null;
     List<String> paths = path.basename(file.path).split(".");
@@ -38,7 +37,7 @@ class FlutterJsonBuilder {
     // 文件不为 .json 格式 ， 返回 null
     // 文件名以 _ 开头 ，返回 null
     if (paths.last.toLowerCase() != "json" || name.startsWith("_")) return null;
-    Json mJson = Json(
+    JsonModel jsonModel = JsonModel(
       srcPath: file.path,
       distPath: file.path
           .replaceFirst(srcDir, distDir)
@@ -48,40 +47,39 @@ class FlutterJsonBuilder {
           .replaceFirst(".json", ".dart"),
       fileName: name,
       className: name.toBigHump(),
-      tag: tag,
     );
     Map<String, dynamic> jsonMap = json.decode(file.readAsStringSync());
-    JsonPlugins.getInstance().build(jsonMap, mJson);
-    return mJson;
+    JsonPlugins.getInstance().build(jsonMap, jsonModel);
+    return jsonModel;
   }
 
   bool build() {
     if (fileList.isEmpty) return false;
-    List<Json> jsons = fileList
+    List<JsonModel> jsonModels = fileList
         .map((file) => buildJson(file))
-        .cast<Json>()
+        .cast<JsonModel>()
         .where((element) => element != null)
         .toList();
 
     // index.dart
     File(path.join(distDir, 'index.dart'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(IndexTemplate(jsons: jsons).toString());
+      ..writeAsStringSync(IndexTemplate(jsonModels).toString());
 
     // converter.dart
-    File(path.join(distDir, 'converter.dart'))
+    File(path.join(distDir, 'a.converter.dart'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(ConverterTemplate(jsons: jsons).toString());
+      ..writeAsStringSync(ConverterTemplate(jsonModels).toString());
 
-    jsons.forEach((element) {
-      if (element == null) {
+    jsonModels.forEach((JsonModel) {
+      if (JsonModel == null) {
         return;
       }
-      File(element.distPath)
+      File(JsonModel.distPath)
         ..createSync(recursive: true)
-        ..writeAsStringSync((element.isResponse
-                ? DataTemplate(mJson: element)
-                : NormalTemplate(mJson: element))
+        ..writeAsStringSync((JsonModel.isResult
+                ? ResultTemplate(JsonModel)
+                : NormalTemplate(JsonModel))
             .toString());
     });
 

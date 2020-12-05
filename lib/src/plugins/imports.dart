@@ -1,15 +1,13 @@
-import 'dart:convert';
-
-import 'package:fson/src/models/json.dart';
-import 'package:fson/src/plugins/base.dart';
+import 'package:fson/src/models/index.dart';
+import 'base.dart';
 
 class ImportsPlugin extends BasePlugin {
   @override
-  bool build(Json mJson, String key, Object value) {
-    mJson.imports
-        .add("${"../" * (mJson.export.split('/').length - 1)}index.dart");
+  bool build(JsonModel jsonModel, String key, Object value) {
+    jsonModel.imports
+        .add("${"../" * (jsonModel.export.split('/').length - 1)}index.dart");
     if (key.startsWith("@import")) {
-      mJson.imports.add(value);
+      jsonModel.imports.add(value);
       return true;
     }
     return false;

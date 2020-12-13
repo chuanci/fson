@@ -84,7 +84,7 @@ class Test<T> {
 
   String name;
 
-  @Converter()
+  @AConverter()
   T data;
 
   factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
@@ -101,7 +101,7 @@ class TestL<T> {
 
   String name;
 
-  @Converter()
+  @AConverter()
   List<T> data;
 
   factory TestL.fromJson(Map<String, dynamic> json) => _$TestLFromJson(json);

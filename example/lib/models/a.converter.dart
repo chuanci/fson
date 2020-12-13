@@ -1,8 +1,8 @@
 import 'index.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class Converter<T> implements JsonConverter<T, Object> {
-  const Converter();
+class AConverter<T> implements JsonConverter<T, Object> {
+  const AConverter();
 
   @override
   T fromJson(Object json) {

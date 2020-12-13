@@ -10,21 +10,21 @@ Result<T> _$ResultFromJson<T>(Map<String, dynamic> json) {
   return Result<T>(
     code: json['code'] as num,
     msg: json['msg'] as String,
-    data: Converter<T>().fromJson(json['data']),
+    data: AConverter<T>().fromJson(json['data']),
   );
 }
 
 Map<String, dynamic> _$ResultToJson<T>(Result<T> instance) => <String, dynamic>{
       'code': instance.code,
       'msg': instance.msg,
-      'data': Converter<T>().toJson(instance.data),
+      'data': AConverter<T>().toJson(instance.data),
     };
 
 ResultL<T> _$ResultLFromJson<T>(Map<String, dynamic> json) {
   return ResultL<T>(
     code: json['code'] as num,
     msg: json['msg'] as String,
-    data: (json['data'] as List)?.map(Converter<T>().fromJson)?.toList(),
+    data: (json['data'] as List)?.map(AConverter<T>().fromJson)?.toList(),
   );
 }
 
@@ -32,5 +32,5 @@ Map<String, dynamic> _$ResultLToJson<T>(ResultL<T> instance) =>
     <String, dynamic>{
       'code': instance.code,
       'msg': instance.msg,
-      'data': instance.data?.map(Converter<T>().toJson)?.toList(),
+      'data': instance.data?.map(AConverter<T>().toJson)?.toList(),
     };

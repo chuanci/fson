@@ -15,7 +15,7 @@ class Result<T> {
   num code;
   String msg;
 
-  @Converter()
+  @AConverter()
   T data;
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
@@ -34,7 +34,7 @@ class ResultL<T> {
   num code;
   String msg;
 
-  @Converter()
+  @AConverter()
   List<T> data;
 
   factory ResultL.fromJson(Map<String, dynamic> json) => _$ResultLFromJson(json);

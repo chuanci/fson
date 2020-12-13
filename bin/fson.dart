@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:fson/fson.dart';
 import 'package:process_run/shell.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   String src;
   String dist;
   var parser = new ArgParser();
@@ -24,8 +26,24 @@ void main(List<String> args) {
     print(parser.usage);
     return;
   }
-  if (FlutterJsonBuilder(src, dist).build()) {
-    Shell().run(
-        "flutter packages pub run build_runner build --delete-conflicting-outputs");
+
+  renameFile('build.yaml', 'build.yaml.bak');
+
+  try {
+    if (FlutterJsonBuilder(src, dist).build()) {
+      await Shell().run(
+          "flutter packages pub run build_runner build --delete-conflicting-outputs");
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+
+  renameFile('build.yaml.bak', 'build.yaml');
+}
+
+void renameFile(String p1, String p2) {
+  var file = File(p1);
+  if (file.existsSync()) {
+    file.renameSync(p2);
   }
 }

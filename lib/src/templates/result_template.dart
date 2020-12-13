@@ -50,7 +50,7 @@ class {{ className }}<T> {
   {{ raw }} 
 {{ /rawFields }}
 
-  @Converter()
+  @AConverter()
   T {{ dataName }};
 
   factory {{ className }}.fromJson(Map<String, dynamic> json) => _${{ className }}FromJson(json);
@@ -77,7 +77,7 @@ class {{ className }}L<T> {
   {{ raw }} {{ name }};
 {{ /rawFields }}
 
-  @Converter()
+  @AConverter()
   List<T> {{ dataName }};
 
   factory {{ className }}L.fromJson(Map<String, dynamic> json) => _${{ className }}LFromJson(json);

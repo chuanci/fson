@@ -29,16 +29,20 @@ class JsonModel {
 
   bool get isResult => dataName != null;
 
-  JsonModel(
-      {this.srcPath,
-      this.distPath,
-      this.export,
-      this.fields,
-      this.imports,
-      this.fileName,
-      this.className,
-      this.dataName,
-      this.rawFields}) {
+  bool required;
+
+  JsonModel({
+    this.srcPath,
+    this.distPath,
+    this.export,
+    this.fields,
+    this.imports,
+    this.fileName,
+    this.className,
+    this.dataName,
+    this.rawFields,
+    this.required = true,
+  }) {
     fields ??= [];
     imports ??= Set<String>();
     rawFields ??= [];
@@ -54,5 +58,6 @@ class JsonModel {
         "className": className,
         "dataName": dataName,
         "rawFields": rawFields,
+        "required": required,
       };
 }

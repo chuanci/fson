@@ -23,14 +23,14 @@ class {{ className }} {
   {{ className }}({
 {{ #fields }}
 {{ #hasJsonKey }}
-    this.{{ jkName }}, 
+    {{ #required }}required {{ /required }}this.{{ jkName }}, 
 {{ /hasJsonKey }}
 {{ ^hasJsonKey }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /rawFields }}
   });
 

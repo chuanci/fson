@@ -18,7 +18,6 @@ dev_dependencies:
 2. 创建或拷贝Json文件到"jsons" 目录中 ;
 3. 运行 `fson` 命令生成Dart model类，生成的文件默认在"lib/models"目录下
 
-
 ## 特殊 Key
 
 ### "_"开头
@@ -56,7 +55,6 @@ class Test {
   Map<String, dynamic> toJson() => _$TestToJson(this);
 }
 ```
-
 
 ## 特殊 Value
 
@@ -112,6 +110,7 @@ class TestL<T> {
 ```
 
 ### "$" 开头
+
 $ 为 tag 值 ，可修改。
 
 ```
@@ -144,7 +143,8 @@ class Test {
 ```
 
 ### "$[]" 开头
-$ 为 tag 值 ，可修改。( -t, --tag     Specify the tag )
+
+$ 为 tag 值 ，可修改。( -t, --tag Specify the tag )
 
 ```
 {
@@ -208,7 +208,7 @@ class Test {
 
 ```
 
-#  命令参数
+# 命令参数
 
 默认的源json文件目录为根目录下名为 "json" 的目录；可以通过 `src` 参数自定义源json文件目录，可以通过`dist` 参数来自定义输出目录,例如:
 
@@ -217,6 +217,7 @@ fson src=json_files  dist=data  # 输出目录为 lib/data
 ```
 
 ## help
+
 ```
 -s, --src     Specify the json directory.
               (defaults to "./jsons")

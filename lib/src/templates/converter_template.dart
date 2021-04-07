@@ -18,11 +18,11 @@ class ConverterTemplate {
 import 'index.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class AConverter<T> implements JsonConverter<T, Object> {
+class AConverter<T> implements JsonConverter<T, dynamic> {
   const AConverter();
 
   @override
-  T fromJson(Object json) {
+  T fromJson(dynamic json) {
     switch (T) {
 {{ #jsonModels }}
       case {{ className }}:
@@ -34,7 +34,7 @@ class AConverter<T> implements JsonConverter<T, Object> {
   }
 
   @override
-  Object toJson(T object) {
+  dynamic toJson(T object) {
     return object;
   }
 }

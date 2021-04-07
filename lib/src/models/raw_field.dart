@@ -1,6 +1,13 @@
 class RawField {
   String raw;
   String name;
-  RawField({this.raw, this.name});
-  toJson() => {"raw": raw, "name": name};
+  bool required;
+
+  RawField({
+    this.raw,
+    this.name,
+    this.required = true,
+  });
+
+  toJson() => {"raw": raw, "name": name, "required": required};
 }

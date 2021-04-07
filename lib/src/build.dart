@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:fson/src/models/index.dart';
 import 'package:fson/src/plugins/index.dart';
 import 'package:fson/src/templates/index.dart';
@@ -71,15 +72,15 @@ class FlutterJsonBuilder {
       ..createSync(recursive: true)
       ..writeAsStringSync(ConverterTemplate(jsonModels).toString());
 
-    jsonModels.forEach((JsonModel) {
-      if (JsonModel == null) {
+    jsonModels.forEach((jsonModel) {
+      if (jsonModel == null) {
         return;
       }
-      File(JsonModel.distPath)
+      File(jsonModel.distPath)
         ..createSync(recursive: true)
-        ..writeAsStringSync((JsonModel.isResult
-                ? ResultTemplate(JsonModel)
-                : NormalTemplate(JsonModel))
+        ..writeAsStringSync((jsonModel.isResult
+                ? ResultTemplate(jsonModel)
+                : NormalTemplate(jsonModel))
             .toString());
     });
 

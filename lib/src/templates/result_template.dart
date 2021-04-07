@@ -24,16 +24,16 @@ class {{ className }}<T> {
   {{ className }}({
 {{ #fields }}
 {{ #hasJsonKey }}
-    this.{{ jkName }}, 
+    {{ #required }}required {{ /required }}this.{{ jkName }}, 
 {{ /hasJsonKey }}
 {{ ^hasJsonKey }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /hasJsonKey }}
 {{ /fields }}
 {{ #rawFields }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /rawFields }}
-    this.{{ dataName }}, 
+    {{ #required }}required {{ /required }}this.{{ dataName }}, 
   });
 
 
@@ -51,7 +51,7 @@ class {{ className }}<T> {
 {{ /rawFields }}
 
   @AConverter()
-  T {{ dataName }};
+  T{{ ^required }}?{{ /required }} {{ dataName }};
 
   factory {{ className }}.fromJson(Map<String, dynamic> json) => _${{ className }}FromJson(json);
 
@@ -62,12 +62,12 @@ class {{ className }}<T> {
 class {{ className }}L<T> {
   {{ className }}L({
 {{ #fields }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /fields }}
 {{ #rawFields }}
-    this.{{ name }}, 
+    {{ #required }}required {{ /required }}this.{{ name }}, 
 {{ /rawFields }}
-    this.{{ dataName }}, 
+    {{ #required }}required {{ /required }}this.{{ dataName }}, 
   });
   
 {{ #fields }}
@@ -78,7 +78,7 @@ class {{ className }}L<T> {
 {{ /rawFields }}
 
   @AConverter()
-  List<T> {{ dataName }};
+  List<T>{{ ^required }}?{{ /required }} {{ dataName }};
 
   factory {{ className }}L.fromJson(Map<String, dynamic> json) => _${{ className }}LFromJson(json);
 

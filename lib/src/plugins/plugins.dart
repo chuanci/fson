@@ -1,12 +1,13 @@
 import 'package:fson/src/models/index.dart';
-import 'ignore.dart';
+
 import 'base.dart';
+import 'ignore.dart';
 import 'imports.dart';
 import 'type.dart';
 
 // json plugins
 class JsonPlugins {
-  static JsonPlugins _instance;
+  static JsonPlugins? _instance;
 
   JsonPlugins._internal();
 
@@ -25,7 +26,7 @@ class JsonPlugins {
     TypePlugin(),
   ];
 
-  void build(Map<String, Object> jsonMap, JsonModel jsonModel) {
+  void build(Map<String, dynamic> jsonMap, JsonModel jsonModel) {
     jsonMap.forEach((key, value) {
       _pluginBuild(jsonModel, key, value);
     });

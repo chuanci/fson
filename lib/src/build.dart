@@ -10,7 +10,7 @@ import 'package:wings_extensions/wings_extensions.dart';
 class FlutterJsonBuilder {
   String srcDir;
   String distDir;
-  List<FileSystemEntity> fileList;
+  List<FileSystemEntity> fileList = [];
   String indexFile = "";
   var jsonList = [];
 
@@ -30,7 +30,7 @@ class FlutterJsonBuilder {
     }
   }
 
-  JsonModel buildJson(File file) {
+  JsonModel? buildJson(File file) {
     // json文件不存在 ，返回 null
     if (!FileSystemEntity.isFileSync(file.path)) return null;
     List<String> paths = path.basename(file.path).split(".");
@@ -47,35 +47,37 @@ class FlutterJsonBuilder {
           .replaceFirst(srcDir + path.separator, "")
           .replaceFirst(".json", ".dart"),
       fileName: name,
-      className: name.toBigHump(),
+      className: name.toBigHump,
     );
+    print("========111");
     Map<String, dynamic> jsonMap = json.decode(file.readAsStringSync());
+    print("========222");
     JsonPlugins.getInstance().build(jsonMap, jsonModel);
     return jsonModel;
   }
 
   bool build() {
     if (fileList.isEmpty) return false;
-    List<JsonModel> jsonModels = fileList
-        .map((file) => buildJson(file))
-        .cast<JsonModel>()
-        .where((element) => element != null)
+    List<JsonModel?> jsonModels = fileList
+        .map((file) => buildJson(file as File))
+        .cast<JsonModel?>()
         .toList();
+
+    jsonModels.removeWhere((element) => element == null);
+
+    List<JsonModel> jms = jsonModels.cast<JsonModel>();
 
     // index.dart
     File(path.join(distDir, 'index.dart'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(IndexTemplate(jsonModels).toString());
+      ..writeAsStringSync(IndexTemplate(jms).toString());
 
     // converter.dart
     File(path.join(distDir, 'a.converter.dart'))
       ..createSync(recursive: true)
-      ..writeAsStringSync(ConverterTemplate(jsonModels).toString());
+      ..writeAsStringSync(ConverterTemplate(jms).toString());
 
-    jsonModels.forEach((jsonModel) {
-      if (jsonModel == null) {
-        return;
-      }
+    jms.forEach((jsonModel) {
       File(jsonModel.distPath)
         ..createSync(recursive: true)
         ..writeAsStringSync((jsonModel.isResult

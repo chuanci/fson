@@ -10,10 +10,10 @@ class JsonModel {
   String export;
 
   // 字段
-  List<Field> fields;
+  List<Field> fields = [];
 
   // imports
-  Set<String> imports;
+  Set<String> imports = {};
 
   // 文件名 【test】.dart
   String fileName;
@@ -23,29 +23,29 @@ class JsonModel {
 
   // data字段名
   // dataName != null 则为response json
-  String dataName;
+  String? dataName;
 
-  List<RawField> rawFields;
+  List<RawField> rawFields = [];
 
   bool get isResult => dataName != null;
 
   bool required;
 
   JsonModel({
-    this.srcPath,
-    this.distPath,
-    this.export,
-    this.fields,
-    this.imports,
-    this.fileName,
-    this.className,
+    required this.srcPath,
+    required this.distPath,
+    required this.export,
+    required this.fileName,
+    required this.className,
     this.dataName,
-    this.rawFields,
     this.required = true,
+    List<Field>? fields,
+    Set<String>? imports,
+    List<RawField>? rawFields,
   }) {
-    fields ??= [];
-    imports ??= Set<String>();
-    rawFields ??= [];
+    this.fields = fields ?? [];
+    this.imports = imports ?? {};
+    this.rawFields = rawFields ?? [];
   }
 
   toJson() => {

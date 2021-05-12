@@ -4,8 +4,8 @@ class RawField {
   bool required;
 
   RawField({
-    this.raw,
-    this.name,
+    required this.raw,
+    required this.name,
     this.required = true,
   });
 

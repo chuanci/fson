@@ -5,19 +5,19 @@ import 'package:fson/fson.dart';
 import 'package:process_run/shell.dart';
 
 void main(List<String> args) async {
-  String src;
-  String dist;
+  String src = "";
+  String dist = "";
   var parser = new ArgParser();
   parser
     ..addOption('src',
         abbr: 's',
         defaultsTo: './jsons',
-        callback: (v) => src = v,
+        callback: (v) => src = v!,
         help: "Specify the json directory.")
     ..addOption('dist',
         abbr: 'd',
         defaultsTo: 'lib/models',
-        callback: (v) => dist = v,
+        callback: (v) => dist = v!,
         help: "Specify the dist directory.")
     ..addFlag('help', abbr: 'h', negatable: false, help: "help");
   parser.parse(args);

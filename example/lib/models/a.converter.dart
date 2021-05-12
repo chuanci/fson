@@ -1,14 +1,16 @@
 import 'index.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class AConverter<T> implements JsonConverter<T, Object> {
+class AConverter<T> implements JsonConverter<T, dynamic> {
   const AConverter();
 
   @override
-  T fromJson(Object json) {
+  T fromJson(dynamic json) {
     switch (T) {
       case UserInfo:
         return UserInfo.fromJson(json) as T;
+      case Test1:
+        return Test1.fromJson(json) as T;
       case Test:
         return Test.fromJson(json) as T;
       default:
@@ -17,7 +19,7 @@ class AConverter<T> implements JsonConverter<T, Object> {
   }
 
   @override
-  Object toJson(T object) {
+  dynamic toJson(T object) {
     return object;
   }
 }

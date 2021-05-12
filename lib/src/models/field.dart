@@ -3,25 +3,19 @@ import 'package:wings_extensions/wings_extensions.dart';
 class Field {
   String type;
   String name;
-  String jkName;
+  String? jkName;
   bool required;
 
   bool get hasJsonKey => jkName != null;
 
   Field({
-    this.type,
-    this.name,
+    required this.type,
+    required this.name,
     this.jkName,
     this.required = true,
   }) {
     if (jkName == null) {
-      List<String> tags = ['-', '_', ' '];
-      for (var tag in tags) {
-        if (name.contains(tag)) {
-          jkName = name.toLittleHump(pattern: tag);
-          return;
-        }
-      }
+      jkName = name.toLittleHump;
     }
   }
 

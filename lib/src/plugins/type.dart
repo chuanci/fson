@@ -11,13 +11,13 @@ class TypePlugin extends BasePlugin {
       if (value.startsWith(r"$[]")) {
         // 特殊列表类型
         String type = value.substring(3);
-        type = isBuiltInType(type) ? type : type.toCapitalize();
+        type = isBuiltInType(type) ? type : type.toCapitalize;
         jsonModel.fields
             .add(Field(type: "List<$type>", name: key, required: required));
       } else if (value.startsWith(r"$")) {
         // 特殊类型
         String type = value.substring(1);
-        type = isBuiltInType(type) ? type : type.toCapitalize();
+        type = isBuiltInType(type) ? type : type.toCapitalize;
         jsonModel.fields
             .add(Field(type: "$type", name: key, required: required));
       } else if (value == "@data") {

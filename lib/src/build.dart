@@ -49,9 +49,7 @@ class FlutterJsonBuilder {
       fileName: name,
       className: name.toBigHump,
     );
-    print("========111");
     Map<String, dynamic> jsonMap = json.decode(file.readAsStringSync());
-    print("========222");
     JsonPlugins.getInstance().build(jsonMap, jsonModel);
     return jsonModel;
   }

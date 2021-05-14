@@ -8,7 +8,7 @@ class Result<T> {
   Result({
     required this.code,
     required this.msg,
-    required this.data,
+    this.data,
   });
 
   @JsonKey(name: 'code')
@@ -16,8 +16,8 @@ class Result<T> {
   @JsonKey(name: 'msg')
   String msg;
 
-  @AConverter()
-  T data;
+  @ResultConverter()
+  T? data;
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 
@@ -29,14 +29,14 @@ class ResultL<T> {
   ResultL({
     required this.code,
     required this.msg,
-    required this.data,
+    this.data,
   });
 
   num code;
   String msg;
 
-  @AConverter()
-  List<T> data;
+  @ResultConverter()
+  List<T>? data;
 
   factory ResultL.fromJson(Map<String, dynamic> json) =>
       _$ResultLFromJson(json);

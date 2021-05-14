@@ -22,7 +22,7 @@ class TypePlugin extends BasePlugin {
             .add(Field(type: "$type", name: key, required: required));
       } else if (value == "@data") {
         jsonModel.dataName = key;
-        jsonModel.required = required;
+        jsonModel.required = false;
       } else if (value.startsWith("@")) {
         // 注解类型
         jsonModel.rawFields

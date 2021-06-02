@@ -19,11 +19,5 @@ class Field {
     }
   }
 
-  toJson() => {
-        "type": type,
-        "name": name,
-        "jkName": jkName,
-        "hasJsonKey": hasJsonKey,
-        "required": required
-      };
+  toJson() => {"type": type, "name": name, "jkName": jkName, "hasJsonKey": hasJsonKey, "required": required};
 }

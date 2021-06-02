@@ -6,14 +6,13 @@ part 'result.g.dart';
 @JsonSerializable()
 class Result<T> {
   Result({
-    required this.code,
-    required this.msg,
-    this.data,
+    required this.code, 
+    required this.msg, 
+    this.data, 
   });
 
-  @JsonKey(name: 'code')
+
   num code;
-  @JsonKey(name: 'msg')
   String msg;
 
   @ResultConverter()
@@ -27,19 +26,19 @@ class Result<T> {
 @JsonSerializable()
 class ResultL<T> {
   ResultL({
-    required this.code,
-    required this.msg,
-    this.data,
+    required this.code, 
+    required this.msg, 
+    this.data, 
   });
-
+  
   num code;
   String msg;
 
   @ResultConverter()
   List<T>? data;
 
-  factory ResultL.fromJson(Map<String, dynamic> json) =>
-      _$ResultLFromJson(json);
+  factory ResultL.fromJson(Map<String, dynamic> json) => _$ResultLFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResultLToJson(this);
 }
+  

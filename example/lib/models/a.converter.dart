@@ -9,7 +9,7 @@ class ResultConverter<T> implements JsonConverter<T, dynamic> {
     if (json == null) {
       return json;
     }
-
+    
     switch (T.toString()) {
       case 'UserInfo':
       case 'UserInfo?':

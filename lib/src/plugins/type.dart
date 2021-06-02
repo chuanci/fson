@@ -12,24 +12,20 @@ class TypePlugin extends BasePlugin {
         // 特殊列表类型
         String type = value.substring(3);
         type = isBuiltInType(type) ? type : type.toCapitalize;
-        jsonModel.fields
-            .add(Field(type: "List<$type>", name: key, required: required));
+        jsonModel.fields.add(Field(type: "List<$type>", name: key, required: required));
       } else if (value.startsWith(r"$")) {
         // 特殊类型
         String type = value.substring(1);
         type = isBuiltInType(type) ? type : type.toCapitalize;
-        jsonModel.fields
-            .add(Field(type: "$type", name: key, required: required));
+        jsonModel.fields.add(Field(type: "$type", name: key, required: required));
       } else if (value == "@data") {
         jsonModel.dataName = key;
         jsonModel.required = false;
       } else if (value.startsWith("@")) {
         // 注解类型
-        jsonModel.rawFields
-            .add(RawField(raw: value, name: key, required: required));
+        jsonModel.rawFields.add(RawField(raw: value, name: key, required: required));
       } else {
-        jsonModel.fields
-            .add(Field(type: "String", name: key, required: required));
+        jsonModel.fields.add(Field(type: "String", name: key, required: required));
       }
     } else if (value is bool) {
       jsonModel.fields.add(Field(type: "bool", name: key));
@@ -47,7 +43,6 @@ class TypePlugin extends BasePlugin {
 
   bool isBuiltInType(String type) {
     type = type.endsWith("?") ? type.substring(0, type.length - 1) : type;
-    return ['int', 'num', 'String', 'double', 'map', 'list', 'bool']
-        .contains(type);
+    return ['int', 'num', 'String', 'double', 'map', 'list', 'bool'].contains(type);
   }
 }
